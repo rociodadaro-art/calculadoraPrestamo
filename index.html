@@ -10,11 +10,14 @@
       margin:0; font-family: Arial, sans-serif;
       background: #fff;
       color:#222;
+    
     }
     .wrap{
       max-width: 600px;
       margin: 32px auto;
       padding: 0 12px;
+     
+      
     }
     .card{
       background: #fff;
@@ -22,9 +25,11 @@
       border-radius: 8px;
       box-shadow: 0 2px 8px rgba(0,0,0,.05);
       padding: 24px;
+      
     }
     .header{
       display:flex; align-items:center; justify-content:space-between; margin-bottom: 16px;
+      
     }
     .title{font-size: 22px; font-weight: bold;}
     .clear{
@@ -37,24 +42,32 @@
       border-radius:6px; padding:0 8px; background:#f9f9f9; height:38px;
     }
     .prefix, .suffix{
-      color:#444; font-weight:bold; margin-right:8px;
+      color:#dd4343; font-weight:bold; margin-right:8px;
+    
     }
     .suffix{ margin-left:8px; margin-right:0; }
     .field input{
-      border:0; outline:0; background:transparent; width:100%; height:100%; font-size:15px; color:#222;
+      border:0; outline:0; background:transparent; width:100%; height:100%; font-size:15px; color:#643e3e;
     }
     .actions{ margin-top:18px; }
     button.primary{
       border:0; border-radius:8px; cursor:pointer;
-      background: #eee; color:#222; font-weight:bold; padding:12px 18px; font-size:15px;
+      background: #7eff28; color:#222; font-weight:bold; padding:12px 18px; font-size:15px;
+      background-image: url(icon-calculator.svg);
+      background-position: left center;
+      background-repeat: no-repeat;
+      background-size:20px;
+      margin-left: 5px;
     }
-    button.primary:active{ background: #ddd; }
-    .error{ color:#b00020; font-size:13px; margin-top:8px; }
+    button.primary:active{ background: #aa19d6; }
+    .error{ color:#c08590; font-size:13px; margin-top:8px; }
     .results{ margin-top:24px; text-align:center; }
     .results h2{ font-size:18px; margin:8px 0 10px; }
-    .results p{ color:#555; margin:0 0 10px; line-height:1.5; }
+    .results p{ color:#b85c5c; margin:0 0 10px; line-height:1.5; }
+
     .kpi{ margin-top:10px; border:1px solid #bbb; border-radius:8px; padding: 10px; text-align:left; color:#222; background:#fafafa; }
-    .kpi .row{ display:flex; justify-content:space-between; padding:6px 2px; border-bottom:1px dashed #ccc; }
+    .kpi .row{ display:flex; justify-content:space-between; padding:6px 2px; border-bottom:1px dashed #ccc;
+     }
     .kpi .row:last-child{ border-bottom:0; }
     .kpi .label{ color:#555; }
     .kpi .value{ font-weight:bold; }
@@ -106,14 +119,25 @@
     function fmtCurrency(n, currencySymbol = '$') {
       return currencySymbol + ' ' + (Number(n).toFixed(2)).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
     }
-    function calcularInteres(amount, rate, years) {
-      
-      return {
-        monthly: cuotaMensual.toFixed(2),
-        totalInterest: interesTotal.toFixed(2),
-        totalPaid: totalPagado.toFixed(2)
-      };
-    }
+   
+function calcularInteres(amount, rate, years) {
+ 
+  const n = years * 12;
+  const r = rate / 100 / 12;
+  const cuotaMensual = (amount * r) / (1 - Math.pow(1 + r, -n));
+
+  const totalPagado = cuotaMensual * n;
+  const interesTotal = totalPagado - amount;
+
+  return {
+    monthly: cuotaMensual.toFixed(2),
+    totalInterest: interesTotal.toFixed(2),
+    totalPaid: totalPagado.toFixed(2)
+  };
+}
+
+   
+
     function renderResults(res) {
       resultsEl.innerHTML = `
         <span class="tag">Resultado</span>
